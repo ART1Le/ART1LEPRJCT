@@ -1,0 +1,346 @@
+--==================================================
+-- WINDUI LIBRARY
+--==================================================
+local WindUI = loadstring(game:HttpGet("https://raw.githubusercontent.com/ART1Le/ART1LEL1B/refs/heads/main/dist/main.lua"))()
+
+local Window = WindUI:CreateWindow({
+    Title = "ART1LE PROJECT",
+    Icon = "rbxassetid://4483362458",
+    Author = "ART1Le",
+    Folder = "ART1LE_Configs"
+})
+
+local function Notify(t, c, d)
+    WindUI:Notify({
+        Title = t,
+        Content = c,
+        Duration = d or 3
+    })
+end
+
+--==================================================
+-- SERVICES & GLOBALS
+--==================================================
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local UserInputService = game:GetService("UserInputService")
+local RunService = game:GetService("RunService")
+local CoreGui = game:GetService("CoreGui")
+
+local LocalPlayer = Players.LocalPlayer
+local Camera = workspace.CurrentCamera
+local BloxbizRemotes = ReplicatedStorage:WaitForChild("BloxbizRemotes", 5)
+local CatalogRemote = BloxbizRemotes and BloxbizRemotes:WaitForChild("CatalogOnApplyOutfit", 5)
+
+-- State Globals
+local SelectedPlayerName = nil
+local MainTargetPlayer = nil
+local SearchInputVal = ""
+
+-- Movement States
+_G.InfJump = false
+_G.NoClip = false
+_G.Fly = false
+local FlySpeed = 50 
+
+-- ESP Globals
+local ESP_Enabled = false
+local ESP_Mode = "Username"
+local ESP_Objects = {}
+
+--==================================================
+-- 🛠️ UTILS & MOVEMENT LOGIC
+--==================================================
+local function GetPlayerList(filter)
+    local t = {}
+    for _, v in pairs(Players:GetPlayers()) do
+        if v ~= LocalPlayer then
+            if not filter or v.Name:lower():find(filter:lower()) or v.DisplayName:lower():find(filter:lower()) then
+                table.insert(t, v.Name)
+            end
+        end
+    end
+    return t
+end
+
+-- Fly Logic
+RunService.RenderStepped:Connect(function()
+    if _G.Fly and LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
+        local hrp = LocalPlayer.Character.HumanoidRootPart
+        local hum = LocalPlayer.Character:FindFirstChildOfClass("Humanoid")
+        
+        local moveDir = hum.MoveDirection
+        local flyVec = moveDir * FlySpeed
+        
+        local verticalValue = 0
+        if UserInputService:IsKeyDown(Enum.KeyCode.E) then verticalValue = FlySpeed end
+        if UserInputService:IsKeyDown(Enum.KeyCode.Q) then verticalValue = -FlySpeed end
+        
+        hrp.Velocity = Vector3.new(flyVec.X, verticalValue, flyVec.Z)
+        
+        if moveDir.Magnitude == 0 and verticalValue == 0 then
+            hrp.Velocity = Vector3.new(0, 0, 0)
+        end
+    end
+end)
+
+-- NoClip Logic
+RunService.Stepped:Connect(function()
+    if _G.NoClip and LocalPlayer.Character then
+        for _, part in pairs(LocalPlayer.Character:GetDescendants()) do
+            if part:IsA("BasePart") then part.CanCollide = false end
+        end
+    end
+end)
+
+-- InfJump Logic
+UserInputService.JumpRequest:Connect(function()
+    if _G.InfJump and LocalPlayer.Character then
+        local hum = LocalPlayer.Character:FindFirstChildOfClass("Humanoid")
+        if hum then hum:ChangeState(Enum.HumanoidStateType.Jumping) end
+    end
+end)
+
+--==================================================
+-- 👁️ ESP LOGIC
+--==================================================
+local function ClearESP()
+    for _, obj in pairs(ESP_Objects) do if obj then obj:Destroy() end end
+    ESP_Objects = {}
+end
+
+local function CreateESP(plr)
+    if plr == LocalPlayer or not plr.Character then return end
+    local head = plr.Character:FindFirstChild("Head")
+    if not head then return end
+
+    local bill = Instance.new("BillboardGui", head)
+    bill.Name = "ART1LE_ESP"
+    bill.AlwaysOnTop = true
+    bill.Size = UDim2.new(0, 100, 0, 30)
+    bill.StudsOffset = Vector3.new(0, 2.5, 0)
+
+    local txt = Instance.new("TextLabel", bill)
+    txt.BackgroundTransparency = 1
+    txt.Size = UDim2.new(1, 0, 1, 0)
+    txt.Font = Enum.Font.GothamBold
+    txt.TextSize = 13
+    txt.TextStrokeTransparency = 0.5
+
+    if ESP_Mode == "Username" then
+        txt.Text = plr.Name
+        txt.TextColor3 = Color3.fromRGB(255, 80, 80)
+    elseif ESP_Mode == "Display" then
+        txt.Text = plr.DisplayName
+        txt.TextColor3 = Color3.fromRGB(80, 255, 80)
+    elseif ESP_Mode == "Both" then
+        txt.Text = plr.DisplayName .. " (@" .. plr.Name .. ")"
+        txt.TextColor3 = Color3.fromRGB(255, 255, 255)
+    end
+    ESP_Objects[plr] = bill
+end
+
+local function RefreshESP()
+    ClearESP()
+    if not ESP_Enabled then return end
+    for _, p in ipairs(Players:GetPlayers()) do CreateESP(p) end
+end
+
+--==================================================
+-- 🔥 CORE LOGIC: AVATAR STEALER
+--==================================================
+local function ApplyAvatarFromDescription(desc, targetName)
+    if not CatalogRemote or not desc then return end
+    local args = {{ 
+        Accessories = {}, Head = desc.Head, LeftArm = desc.LeftArm, RightArm = desc.RightArm,
+        LeftLeg = desc.LeftLeg, RightLeg = desc.RightLeg, Torso = desc.Torso, Face = desc.Face,
+        Shirt = desc.Shirt, Pants = desc.Pants, GraphicTShirt = desc.GraphicTShirt,
+        BodyTypeScale = desc.BodyTypeScale, DepthScale = desc.DepthScale, HeightScale = desc.HeightScale,
+        WidthScale = desc.WidthScale, ProportionScale = desc.ProportionScale, HeadScale = desc.HeadScale,
+        LeftArmColor = desc.LeftArmColor, RightArmColor = desc.RightArmColor, LeftLegColor = desc.LeftLegColor,
+        RightLegColor = desc.RightLegColor, TorsoColor = desc.TorsoColor, HeadColor = desc.HeadColor,
+        IdleAnimation = desc.IdleAnimation, RunAnimation = desc.RunAnimation, WalkAnimation = desc.WalkAnimation,
+        JumpAnimation = desc.JumpAnimation, ClimbAnimation = desc.ClimbAnimation, FallAnimation = desc.FallAnimation,
+        SwimAnimation = desc.SwimAnimation, MoodAnimation = desc.MoodAnimation
+    }}
+    pcall(function() 
+        local accs = desc:GetAccessories(true)
+        for _, v in ipairs(accs) do 
+            table.insert(args[1].Accessories, {AssetId = v.AssetId, AccessoryType = v.AccessoryType, IsLayered = v.IsLayered, Order = v.Order, Puffiness = v.Puffiness, Position = Vector3.zero, Rotation = Vector3.zero, Scale = Vector3.one}) 
+        end 
+    end)
+    pcall(function() CatalogRemote:FireServer(unpack(args)) end)
+    Notify("Sukses", "Avatar copy dari: " .. tostring(targetName))
+end
+
+--==================================================
+-- 🏠 MAIN TAB
+--==================================================
+local MainTab = Window:Tab({ Title = "MAIN", Icon = "home" })
+
+MainTab:Section({ Title = "Player Selector" })
+
+local MainPlayerDrop 
+
+MainTab:Input({
+    Title = "Search Player",
+    Placeholder = "Type username...",
+    Callback = function(t)
+        if MainPlayerDrop then MainPlayerDrop:Refresh(GetPlayerList(t)) end
+    end
+})
+
+MainPlayerDrop = MainTab:Dropdown({
+    Title = "Select Target Player",
+    Values = GetPlayerList(),
+    Callback = function(v) MainTargetPlayer = v end
+})
+
+MainTab:Button({
+    Title = "Teleport to Target",
+    Callback = function()
+        if MainTargetPlayer then
+            local target = Players:FindFirstChild(MainTargetPlayer)
+            if target and target.Character and target.Character:FindFirstChild("HumanoidRootPart") then
+                LocalPlayer.Character.HumanoidRootPart.CFrame = target.Character.HumanoidRootPart.CFrame
+                Notify("Teleport", "Teleported to " .. MainTargetPlayer)
+            end
+        end
+    end
+})
+
+MainTab:Toggle({
+    Title = "SPY Player (Watch)",
+    Callback = function(v)
+        if v and MainTargetPlayer then
+            local target = Players:FindFirstChild(MainTargetPlayer)
+            if target and target.Character then Camera.CameraSubject = target.Character:FindFirstChildOfClass("Humanoid") end
+        else
+            Camera.CameraSubject = LocalPlayer.Character:FindFirstChildOfClass("Humanoid")
+        end
+    end
+})
+
+MainTab:Section({ Title = "Movement & Visual" })
+
+MainTab:Toggle({
+    Title = "Enable Name ESP",
+    Callback = function(v) ESP_Enabled = v RefreshESP() end
+})
+
+MainTab:Dropdown({
+    Title = "ESP Mode",
+    Values = {"Username", "Display", "Both"},
+    Value = "Username",
+    Callback = function(v) ESP_Mode = v RefreshESP() end
+})
+
+MainTab:Toggle({ Title = "Infinity Jump", Callback = function(v) _G.InfJump = v end })
+MainTab:Toggle({ Title = "No Clip", Callback = function(v) _G.NoClip = v end })
+MainTab:Toggle({ Title = "FLY (E-Up / Q-Down)", Callback = function(v) _G.Fly = v end })
+
+-- PERBAIKAN SLIDER SESUAI DOKUMENTASI
+MainTab:Slider({
+    Title = "Fly Speed",
+    Min = 10,
+    Max = 300,
+    Step = 1,
+    Value = 50,
+    Callback = function(v)
+        FlySpeed = v
+    end
+})
+
+--==================================================
+-- 🎭 TROLL TAB
+--==================================================
+local TrollTab = Window:Tab({ Title = "TROLL", Icon = "zap" })
+
+TrollTab:Section({ Title = "Copy Player Avatar" })
+
+local CopyDropdown 
+
+TrollTab:Input({
+    Title = "Search Player to Copy",
+    Placeholder = "Type name...",
+    Callback = function(t)
+        if CopyDropdown then CopyDropdown:Refresh(GetPlayerList(t)) end
+    end
+})
+
+CopyDropdown = TrollTab:Dropdown({
+    Title = "Select Player to Copy",
+    Values = GetPlayerList(),
+    Callback = function(val) SelectedPlayerName = val end
+})
+
+TrollTab:Button({
+    Title = "Refresh Player List",
+    Callback = function() CopyDropdown:Refresh(GetPlayerList()) end
+})
+
+TrollTab:Button({
+    Title = "Copy Selected Player (FE)",
+    Callback = function()
+        if not SelectedPlayerName then return end
+        local target = Players:FindFirstChild(SelectedPlayerName)
+        if target and target.Character then
+            local hum = target.Character:FindFirstChildOfClass("Humanoid")
+            if hum then
+                local success, desc = pcall(function() return hum:GetAppliedDescription() end)
+                if success and desc then ApplyAvatarFromDescription(desc, SelectedPlayerName) end
+            end
+        end
+    end
+})
+
+TrollTab:Section({ Title = "Global Search (API)" })
+
+TrollTab:Input({
+    Title = "Search Username / ID",
+    Placeholder = "e.g. Roblox",
+    Callback = function(t) SearchInputVal = t end
+})
+
+TrollTab:Button({
+    Title = "Search & Copy (API)",
+    Callback = function()
+        if SearchInputVal == "" then return end
+        local uid = tonumber(SearchInputVal)
+        if not uid then
+            local s, id = pcall(function() return Players:GetUserIdFromNameAsync(SearchInputVal) end)
+            if s then uid = id end
+        end
+        if uid then
+            local s, desc = pcall(function() return Players:GetHumanoidDescriptionFromUserId(uid) end)
+            if s and desc then ApplyAvatarFromDescription(desc, SearchInputVal) end
+        end
+    end
+})
+
+TrollTab:Button({
+    Title = "Reset to Original",
+    Callback = function()
+        local s, desc = pcall(function() return Players:GetHumanoidDescriptionFromUserId(LocalPlayer.UserId) end)
+        if s and desc then ApplyAvatarFromDescription(desc, "Original") end
+    end
+})
+
+--==================================================
+-- ⚙️ SETTINGS TAB
+--==================================================
+local SettingsTab = Window:Tab({ Title = "Settings", Icon = "settings" })
+
+--==================================================
+-- ⌨️ UI TOGGLE & EVENTS
+--==================================================
+UserInputService.InputBegan:Connect(function(input, processed)
+    if not processed and (input.KeyCode == Enum.KeyCode.RightControl or input.KeyCode == Enum.KeyCode.Insert) then
+        Window:Toggle()
+    end
+end)
+
+Players.PlayerAdded:Connect(function() task.wait(0.5) RefreshESP() end)
+Players.PlayerRemoving:Connect(function() RefreshESP() end)
+
+Notify("WindUI Loaded", "Semua Tab Muncul Kembali", 5)
