@@ -421,26 +421,26 @@ MainTab:Button({
     Title = "Refresh Character (/re)",
     Callback = function()
         local char = LocalPlayer.Character
-        if char and char:FindFirstChild("HumanoidRootPart") then
-            local savedCFrame = char.HumanoidRootPart.CFrame
+        if char and char:FindFirstChildOfClass("Humanoid") then
+            local hrp = char:FindFirstChild("HumanoidRootPart")
+            local savedCFrame = hrp and hrp.CFrame or nil
             
-            Notify("Refresh", "Memuat ulang karakter secara instan...")
+            -- Membunuh karakter untuk memicu respawn
+            char:FindFirstChildOfClass("Humanoid").Health = 0
+            Notify("Refresh", "Me-refresh karakter...")
             
-            -- Cara instan: Langsung hancurkan karakter tanpa animasi mati/jatuh
-            char:Destroy()
-            -- Memicu server untuk memuat ulang karakter
-            LocalPlayer.Character = nil 
-            
-            -- Menangkap karakter baru saat respawn dan mengembalikan posisinya
-            local respawnConn
-            respawnConn = LocalPlayer.CharacterAdded:Connect(function(newChar)
-                local newHRP = newChar:WaitForChild("HumanoidRootPart", 5)
-                if newHRP then
-                    task.wait(0.1) -- Jeda sebentar agar physics stabil
-                    newHRP.CFrame = savedCFrame
-                end
-                if respawnConn then respawnConn:Disconnect() end
-            end)
+            -- Mengembalikan karakter ke posisi semula setelah respawn
+            if savedCFrame then
+                local respawnConn
+                respawnConn = LocalPlayer.CharacterAdded:Connect(function(newChar)
+                    local newHRP = newChar:WaitForChild("HumanoidRootPart", 5)
+                    if newHRP then
+                        task.wait(0.1) -- Jeda sebentar agar physics stabil
+                        newHRP.CFrame = savedCFrame
+                    end
+                    if respawnConn then respawnConn:Disconnect() end
+                end)
+            end
         end
     end
 })
