@@ -646,166 +646,166 @@ local AnimationsData = {
     ["Toy Jump"] = "rbxassetid://10921308158",
 
     -- BUBBLY
-    ["Bubbly Idle"] = "rbxassetid://616079330",
-    ["Bubbly Run"] = "rbxassetid://616081552",
-    ["Bubbly Walk"] = "rbxassetid://616082641",
-    ["Bubbly Jump"] = "rbxassetid://616080083",
+    ["Bubbly Idle"] = "rbxassetid://10921054344",
+    ["Bubbly Run"] = "rbxassetid://10921057244",
+    ["Bubbly Walk"] = "rbxassetid://10980888364",
+    ["Bubbly Jump"] = "rbxassetid://10921062673",
 
     -- CARTOONY
-    ["Cartoony Idle"] = "rbxassetid://742632327",
-    ["Cartoony Run"] = "rbxassetid://742637998",
-    ["Cartoony Walk"] = "rbxassetid://742638842",
-    ["Cartoony Jump"] = "rbxassetid://742636881",
+    ["Cartoony Idle"] = "rbxassetid://10921071918",
+    ["Cartoony Run"] = "rbxassetid://10921076136",
+    ["Cartoony Walk"] = "rbxassetid://10921082452",
+    ["Cartoony Jump"] = "rbxassetid://10921078135",
 
     -- ADIDAS COM
-    ["Adidas Com Idle"] = "rbxassetid://",
-    ["Adidas Com Run"] = "rbxassetid://",
-    ["Adidas Com Walk"] = "rbxassetid://",
-    ["Adidas Com Jump"] = "rbxassetid://",
+    ["Adidas Com Idle"] = "rbxassetid://122257458498464",
+    ["Adidas Com Run"] = "rbxassetid://82598234841035",
+    ["Adidas Com Walk"] = "rbxassetid://122150855457006",
+    ["Adidas Com Jump"] = "rbxassetid://75290611992385",
 
     -- ADIDAS SPO
-    ["Adidas Spo Idle"] = "rbxassetid://",
-    ["Adidas Spo Run"] = "rbxassetid://",
-    ["Adidas Spo Walk"] = "rbxassetid://",
-    ["Adidas Spo Jump"] = "rbxassetid://",
+    ["Adidas Spo Idle"] = "rbxassetid://18537376492",
+    ["Adidas Spo Run"] = "rbxassetid://18537384940",
+    ["Adidas Spo Walk"] = "rbxassetid://18537392113",
+    ["Adidas Spo Jump"] = "rbxassetid://18537380791",
 
     -- STYLISH
-    ["Stylish Idle"] = "rbxassetid://616136790",
-    ["Stylish Run"] = "rbxassetid://616139030",
-    ["Stylish Walk"] = "rbxassetid://616139957",
-    ["Stylish Jump"] = "rbxassetid://616137447",
+    ["Stylish Idle"] = "rbxassetid://10921272275",
+    ["Stylish Run"] = "rbxassetid://10921276116",
+    ["Stylish Walk"] = "rbxassetid://10921283326",
+    ["Stylish Jump"] = "rbxassetid://10921279832",
 
     -- AMAZON
-    ["Amazon Idle"] = "rbxassetid://",
-    ["Amazon Run"] = "rbxassetid://",
-    ["Amazon Walk"] = "rbxassetid://",
-    ["Amazon Jump"] = "rbxassetid://",
+    ["Amazon Idle"] = "rbxassetid://98281136301627",",
+    ["Amazon Run"] = "rbxassetid://134824450619865",
+    ["Amazon Walk"] = "rbxassetid://90478085024465",
+    ["Amazon Jump"] = "rbxassetid://121454505477205",
 
     -- BOLD
-    ["Bold Idle"] = "rbxassetid://616088232",
-    ["Bold Run"] = "rbxassetid://616090535",
-    ["Bold Walk"] = "rbxassetid://616091571",
-    ["Bold Jump"] = "rbxassetid://616088911",
+    ["Bold Idle"] = "rbxassetid://16738333868",
+    ["Bold Run"] = "rbxassetid://16738337225",
+    ["Bold Walk"] = "rbxassetid://16738340646",
+    ["Bold Jump"] = "rbxassetid://16738336650",
 
     -- ADIDAS AURA
-    ["Adidas Aura Idle"] = "rbxassetid://",
-    ["Adidas Aura Run"] = "rbxassetid://",
-    ["Adidas Aura Walk"] = "rbxassetid://",
-    ["Adidas Aura Jump"] = "rbxassetid://",
+    ["Adidas Aura Idle"] = "rbxassetid://110211186840347",
+    ["Adidas Aura Run"] = "rbxassetid://118320322718866",
+    ["Adidas Aura Walk"] = "rbxassetid://83842218823011",
+    ["Adidas Aura Jump"] = "rbxassetid://109996626521204",
 
     -- WICKED
-    ["Wicked Idle"] = "rbxassetid://",
-    ["Wicked Run"] = "rbxassetid://",
-    ["Wicked Walk"] = "rbxassetid://",
-    ["Wicked Jump"] = "rbxassetid://",
+    ["Wicked Idle"] = "rbxassetid://118832222982049",
+    ["Wicked Run"] = "rbxassetid://72301599441680",
+    ["Wicked Walk"] = "rbxassetid://92072849924640",
+    ["Wicked Jump"] = "rbxassetid://104325245285198",
 
     -- OLD SCHOOL
-    ["Old School Idle"] = "rbxassetid://5319828232",
-    ["Old School Run"] = "rbxassetid://5319830062",
-    ["Old School Walk"] = "rbxassetid://5319831086",
-    ["Old School Jump"] = "rbxassetid://5319828751",
+    ["Old School Idle"] = "rbxassetid://10921230744",
+    ["Old School Run"] = "rbxassetid://10921240218",
+    ["Old School Walk"] = "rbxassetid://10921244891",
+    ["Old School Jump"] = "rbxassetid://10921242013",
 
     -- WICKED NEW
-    ["Wicked New Idle"] = "rbxassetid://",
-    ["Wicked New Run"] = "rbxassetid://",
-    ["Wicked New Walk"] = "rbxassetid://",
-    ["Wicked New Jump"] = "rbxassetid://",
+    ["Wicked New Idle"] = "rbxassetid://92849173543269",
+    ["Wicked New Run"] = "rbxassetid://135515454877967",
+    ["Wicked New Walk"] = "rbxassetid://73718308412641",
+    ["Wicked New Jump"] = "rbxassetid://78508480717326",
 
     -- NO BOUNDARIES
-    ["No Boundaries Idle"] = "rbxassetid://",
-    ["No Boundaries Run"] = "rbxassetid://",
-    ["No Boundaries Walk"] = "rbxassetid://",
-    ["No Boundaries Jump"] = "rbxassetid://",
+    ["No Boundaries Idle"] = "rbxassetid://18747067405",
+    ["No Boundaries Run"] = "rbxassetid://18747070484",
+    ["No Boundaries Walk"] = "rbxassetid://18747074203",
+    ["No Boundaries Jump"] = "rbxassetid://18747069148",
 
     -- MAGE
-    ["Mage Idle"] = "rbxassetid://707742142",
-    ["Mage Run"] = "rbxassetid://707821433",
-    ["Mage Walk"] = "rbxassetid://707826164",
-    ["Mage Jump"] = "rbxassetid://707817300",
+    ["Mage Idle"] = "rbxassetid://10921144709",
+    ["Mage Run"] = "rbxassetid://10921148209",
+    ["Mage Walk"] = "rbxassetid://10921152678",
+    ["Mage Jump"] = "rbxassetid://10921149743",
 
     -- ROBOT
-    ["Robot Idle"] = "rbxassetid://616082233",
-    ["Robot Run"] = "rbxassetid://616085211",
-    ["Robot Walk"] = "rbxassetid://616086039",
-    ["Robot Jump"] = "rbxassetid://616083533",
+    ["Robot Idle"] = "rbxassetid://10921248039",
+    ["Robot Run"] = "rbxassetid://10921250460",
+    ["Robot Walk"] = "rbxassetid://10921255446",
+    ["Robot Jump"] = "rbxassetid://10921252123",
 
     -- CATWALK
-    ["Catwalk Idle"] = "rbxassetid://1215722166",
-    ["Catwalk Run"] = "rbxassetid://1215722166",
-    ["Catwalk Walk"] = "rbxassetid://1215722166",
-    ["Catwalk Jump"] = "rbxassetid://1215722166",
+    ["Catwalk Idle"] = "rbxassetid://133806214992291",
+    ["Catwalk Run"] = "rbxassetid://81024476153754",
+    ["Catwalk Walk"] = "rbxassetid://109168724482748",
+    ["Catwalk Jump"] = "rbxassetid://116936326516985",
 
     -- NFL
-    ["NFL Idle"] = "rbxassetid://",
-    ["NFL Run"] = "rbxassetid://",
-    ["NFL Walk"] = "rbxassetid://",
-    ["NFL Jump"] = "rbxassetid://",
+    ["NFL Idle"] = "rbxassetid://92080889861410",
+    ["NFL Run"] = "rbxassetid://117333533048078",
+    ["NFL Walk"] = "rbxassetid://110358958299415",
+    ["NFL Jump"] = "rbxassetid://119846112151352",
 
     -- ELDER
-    ["Elder Idle"] = "rbxassetid://845397899",
-    ["Elder Run"] = "rbxassetid://845402038",
-    ["Elder Walk"] = "rbxassetid://845403896",
-    ["Elder Jump"] = "rbxassetid://845399995",
+    ["Elder Idle"] = "rbxassetid://10921101664",
+    ["Elder Run"] = "rbxassetid://10921104374",
+    ["Elder Walk"] = "rbxassetid://10921111375",
+    ["Elder Jump"] = "rbxassetid://10921107367",
 
     -- WEREWOLF
-    ["Werewolf Idle"] = "rbxassetid://1083192044",
-    ["Werewolf Run"] = "rbxassetid://1083195517",
-    ["Werewolf Walk"] = "rbxassetid://1083196331",
-    ["Werewolf Jump"] = "rbxassetid://1083193525",
+    ["Werewolf Idle"] = "rbxassetid://10921330408",
+    ["Werewolf Run"] = "rbxassetid://10921336997",
+    ["Werewolf Walk"] = "rbxassetid://10921342074",
+    ["Werewolf Jump"] = "rbxassetid://1083218792",
 
     -- SUPERHERO
-    ["Superhero Idle"] = "rbxassetid://616095330",
-    ["Superhero Run"] = "rbxassetid://616097161",
-    ["Superhero Walk"] = "rbxassetid://616098272",
-    ["Superhero Jump"] = "rbxassetid://616095933",
+    ["Superhero Idle"] = "rbxassetid://10921288909",
+    ["Superhero Run"] = "rbxassetid://10921291831",
+    ["Superhero Walk"] = "rbxassetid://10921298616",
+    ["Superhero Jump"] = "rbxassetid://10921294559",
 
     -- ZOMBIE
-    ["Zombie Idle"] = "rbxassetid://616158929",
-    ["Zombie Run"] = "rbxassetid://616161925",
-    ["Zombie Walk"] = "rbxassetid://616163682",
-    ["Zombie Jump"] = "rbxassetid://616160356",
+    ["Zombie Idle"] = "rbxassetid://10921344533",
+    ["Zombie Run"] = "rbxassetid://616163682",
+    ["Zombie Walk"] = "rbxassetid://10921355261",
+    ["Zombie Jump"] = "rbxassetid://10921351278",
 
     -- ASTRONAUT
-    ["Astronaut Idle"] = "rbxassetid://891557002",
-    ["Astronaut Run"] = "rbxassetid://891559253",
-    ["Astronaut Walk"] = "rbxassetid://891560213",
-    ["Astronaut Jump"] = "rbxassetid://891557983",
+    ["Astronaut Idle"] = "rbxassetid://10921034824",
+    ["Astronaut Run"] = "rbxassetid://10921039308",
+    ["Astronaut Walk"] = "rbxassetid://10921046031",
+    ["Astronaut Jump"] = "rbxassetid://10921042494",
 
     -- NINJA
-    ["Ninja Idle"] = "rbxassetid://656117400",
-    ["Ninja Run"] = "rbxassetid://656118852",
-    ["Ninja Walk"] = "rbxassetid://656121766",
-    ["Ninja Jump"] = "rbxassetid://656117927",
+    ["Ninja Idle"] = "rbxassetid://10921155160",
+    ["Ninja Run"] = "rbxassetid://10921157929",
+    ["Ninja Walk"] = "rbxassetid://10921162768",
+    ["Ninja Jump"] = "rbxassetid://10921160088",
 
     -- VAMPIRE
-    ["Vampire Idle"] = "rbxassetid://1083412247",
-    ["Vampire Run"] = "rbxassetid://1083413769",
-    ["Vampire Walk"] = "rbxassetid://1083414343",
-    ["Vampire Jump"] = "rbxassetid://1083412857",
+    ["Vampire Idle"] = "rbxassetid://10921315373",
+    ["Vampire Run"] = "rbxassetid://10921320299",
+    ["Vampire Walk"] = "rbxassetid://10921326949",
+    ["Vampire Jump"] = "rbxassetid://10921322186",
 
     -- KNIGHT
-    ["Knight Idle"] = "rbxassetid://657373335",
-    ["Knight Run"] = "rbxassetid://657373623",
-    ["Knight Walk"] = "rbxassetid://657373751",
-    ["Knight Jump"] = "rbxassetid://657373418",
+    ["Knight Idle"] = "rbxassetid://10921117521",
+    ["Knight Run"] = "rbxassetid://10921121197",
+    ["Knight Walk"] = "rbxassetid://10921127095",
+    ["Knight Jump"] = "rbxassetid://10921123517",
 
     -- LEVITATION
-    ["Levitation Idle"] = "rbxassetid://616076135",
-    ["Levitation Run"] = "rbxassetid://616077306",
-    ["Levitation Walk"] = "rbxassetid://616077717",
-    ["Levitation Jump"] = "rbxassetid://616076757",
+    ["Levitation Idle"] = "rbxassetid://10921132962",
+    ["Levitation Run"] = "rbxassetid://10921135644",
+    ["Levitation Walk"] = "rbxassetid://10921140719",
+    ["Levitation Jump"] = "rbxassetid://10921137402",
 
     -- PIRATE
     ["Pirate Idle"] = "rbxassetid://750781874",
-    ["Pirate Run"] = "rbxassetid://750782774",
-    ["Pirate Walk"] = "rbxassetid://750783738",
-    ["Pirate Jump"] = "rbxassetid://750782210",
+    ["Pirate Run"] = "rbxassetid://750783738",
+    ["Pirate Walk"] = "rbxassetid://750785693",
+    ["Pirate Jump"] = "rbxassetid://750782230",
 
     -- RTHRO
-    ["Rthro Idle"] = "rbxassetid://2510196951",
-    ["Rthro Run"] = "rbxassetid://2510197793",
-    ["Rthro Walk"] = "rbxassetid://2510198655",
-    ["Rthro Jump"] = "rbxassetid://2510197472"
+    ["Rthro Idle"] = "rbxassetid://10921259953",
+    ["Rthro Run"] = "rbxassetid://10921261968",
+    ["Rthro Walk"] = "rbxassetid://10921269718",
+    ["Rthro Jump"] = "rbxassetid://10921263860"
 }
 
 local function GetKeys(t)
