@@ -640,10 +640,10 @@ local EmotesData = {
 -- 📌 TAMBAHKAN ID ANIMASI KAMU DI SINI (Ubah Gaya Berjalan/Lari)
 local AnimationsData = {
     -- TOY
-    ["Toy Idle"] = "rbxassetid://782842708",
-    ["Toy Run"] = "rbxassetid://782843116",
-    ["Toy Walk"] = "rbxassetid://782843345",
-    ["Toy Jump"] = "rbxassetid://782843005",
+    ["Toy Idle"] = "rbxassetid://10921301576",
+    ["Toy Run"] = "rbxassetid://10921306285",
+    ["Toy Walk"] = "rbxassetid://10921312010",
+    ["Toy Jump"] = "rbxassetid://10921308158",
 
     -- BUBBLY
     ["Bubbly Idle"] = "rbxassetid://616079330",
