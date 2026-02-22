@@ -74,9 +74,9 @@ local RotationX = 0
 local RotationY = 0
 local SmoothRotX = 0
 local SmoothRotY = 0
-local CinematicSmoothness = 0.08 -- Professional Damping
+local CinematicSmoothness = 0.08
 
--- Advanced Lock Globals (NEW FEATURES)
+-- Advanced Lock Globals
 local LockFree_Enabled = false
 local LockFree_Target = nil
 local LockFree_Mode = "OFF"
@@ -103,7 +103,7 @@ local function GetPlayerList(filter)
     return t
 end
 
--- Fly Logic (KAKU & TEGAK)
+-- Fly Logic
 RunService.RenderStepped:Connect(function()
     if _G.Fly and LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
         local hrp = LocalPlayer.Character.HumanoidRootPart
@@ -384,24 +384,9 @@ MainTab:Toggle({
     end
 })
 MainTab:Section({ Title = "Movement & Visual" })
-MainTab:Toggle({
-    Title = "Enable Name ESP",
-    Callback = function(v) ESP_Enabled = v RefreshESP() end
-})
-MainTab:Dropdown({
-    Title = "ESP Mode",
-    Values = {"Username", "Display", "Both"},
-    Value = "Display",
-    Callback = function(v) ESP_Mode = v RefreshESP() end
-})
-MainTab:Colorpicker({
-    Title = "ESP Text Color",
-    Default = Color3.fromRGB(25, 212, 209),
-    Callback = function(color)
-        ESP_Color = color
-        RefreshESP()
-    end
-})
+MainTab:Toggle({ Title = "Enable Name ESP", Callback = function(v) ESP_Enabled = v RefreshESP() end })
+MainTab:Dropdown({ Title = "ESP Mode", Values = {"Username", "Display", "Both"}, Value = "Display", Callback = function(v) ESP_Mode = v RefreshESP() end })
+MainTab:Colorpicker({ Title = "ESP Text Color", Default = Color3.fromRGB(25, 212, 209), Callback = function(color) ESP_Color = color RefreshESP() end })
 MainTab:Toggle({ Title = "Infinity Jump", Callback = function(v) _G.InfJump = v end })
 MainTab:Toggle({ Title = "No Clip", Callback = function(v) _G.NoClip = v end })
 MainTab:Toggle({ Title = "FLY", Callback = function(v) _G.Fly = v end })
@@ -439,68 +424,26 @@ local function GetPlrFromText(txt)
 end
 
 FreecamTab:Section({ Title = "Freecam Controller" })
-FreecamTab:Toggle({
-    Title = "Enable Freecam",
-    Callback = function(v) ToggleFreecam(v) end
-})
-FreecamTab:Slider({
-    Title = "Freecam Speed",
-    Min = 0.1, Max = 10, Step = 0.1, Default = 1,
-    Callback = function(v) FreecamSpeed = v end
-})
+FreecamTab:Toggle({ Title = "Enable Freecam", Callback = function(v) ToggleFreecam(v) end })
+FreecamTab:Slider({ Title = "Freecam Speed", Min = 0.1, Max = 10, Step = 0.1, Default = 1, Callback = function(v) FreecamSpeed = v end })
 
 FreecamTab:Section({ Title = "Solo Freecam" })
 local LockDrop
-FreecamTab:Input({
-    Title = "Search Player",
-    Placeholder = "Search DisplayName...",
-    Callback = function(t) if LockDrop then LockDrop:Refresh(GetFullPlayerList(t)) end end
-})
-LockDrop = FreecamTab:Dropdown({
-    Title = "Select Target",
-    Values = GetFullPlayerList(),
-    Callback = function(v) LockFree_Target = GetPlrFromText(v) end
-})
-FreecamTab:Dropdown({
-    Title = "Lock Mode",
-    Values = {"OFF", "FOLLOW HEAD", "FOLLOW BODY"},
-    Value = "OFF",
-    Callback = function(v) LockFree_Mode = v end
-})
+FreecamTab:Input({ Title = "Search Player", Placeholder = "Search DisplayName...", Callback = function(t) if LockDrop then LockDrop:Refresh(GetFullPlayerList(t)) end end })
+LockDrop = FreecamTab:Dropdown({ Title = "Select Target", Values = GetFullPlayerList(), Callback = function(v) LockFree_Target = GetPlrFromText(v) end })
+FreecamTab:Dropdown({ Title = "Lock Mode", Values = {"OFF", "FOLLOW HEAD", "FOLLOW BODY"}, Value = "OFF", Callback = function(v) LockFree_Mode = v end })
 FreecamTab:Toggle({ Title = "Enable Lock Position", Callback = function(v) LockFree_Enabled = v end })
 
 FreecamTab:Section({ Title = "Duo Center Freecam" })
 local CDropA, CDropB
-FreecamTab:Input({
-    Title = "Search Player A/B",
-    Placeholder = "Filter...",
-    Callback = function(t) 
-        local l = GetFullPlayerList(t)
-        if CDropA then CDropA:Refresh(l) end
-        if CDropB then CDropB:Refresh(l) end
-    end
-})
+FreecamTab:Input({ Title = "Search Player A/B", Placeholder = "Filter...", Callback = function(t) local l = GetFullPlayerList(t) if CDropA then CDropA:Refresh(l) end if CDropB then CDropB:Refresh(l) end end })
 CDropA = FreecamTab:Dropdown({ Title = "Target A", Values = GetFullPlayerList(), Callback = function(v) CenterFree_A = GetPlrFromText(v) end })
 CDropB = FreecamTab:Dropdown({ Title = "Target B", Values = GetFullPlayerList(), Callback = function(v) CenterFree_B = GetPlrFromText(v) end })
-FreecamTab:Dropdown({
-    Title = "Center Mode",
-    Values = {"OFF", "FOLLOW HEAD", "FOLLOW BODY"},
-    Value = "OFF",
-    Callback = function(v) CenterFree_Mode = v end
-})
+FreecamTab:Dropdown({ Title = "Center Mode", Values = {"OFF", "FOLLOW HEAD", "FOLLOW BODY"}, Value = "OFF", Callback = function(v) CenterFree_Mode = v end })
 FreecamTab:Toggle({ Title = "Enable Center Freecam", Callback = function(v) CenterFree_Enabled = v end })
 
 FreecamTab:Section({ Title = "Other" })
-FreecamTab:Button({
-    Title = "Refresh Player List",
-    Callback = function()
-        local l = GetFullPlayerList()
-        if LockDrop then LockDrop:Refresh(l) end
-        if CDropA then CDropA:Refresh(l) end
-        if CDropB then CDropB:Refresh(l) end
-        Notify("Updated", "Player list refreshed!")
-    end
-})
+FreecamTab:Button({ Title = "Refresh Player List", Callback = function() local l = GetFullPlayerList() if LockDrop then LockDrop:Refresh(l) end if CDropA then CDropA:Refresh(l) end if CDropB then CDropB:Refresh(l) end Notify("Updated", "Player list refreshed!") end })
 
 --==================================================
 -- 🎥 RENDERSTEPPED: ALL LOGIC (ASLI + LOCK + CENTER + SMOOTHING)
@@ -530,9 +473,7 @@ RunService.RenderStepped:Connect(function(dt)
         local char = LockFree_Target.Character
         if char then
             local p = (LockFree_Mode == "FOLLOW HEAD") and char:FindFirstChild("Head") or char:FindFirstChild("HumanoidRootPart")
-            if p then
-                targetPosition = p.Position + (lookRotation.LookVector * -LockFree_Offset)
-            end
+            if p then targetPosition = p.Position + (lookRotation.LookVector * -LockFree_Offset) end
         end
     elseif CenterFree_Enabled and CenterFree_A and CenterFree_B and CenterFree_Mode ~= "OFF" then
         local cA, cB = CenterFree_A.Character, CenterFree_B.Character
@@ -569,18 +510,8 @@ end)
 local TrollTab = Window:Tab({ Title = "TROLL", Icon = "zap" })
 TrollTab:Section({ Title = "WORK ONLY HANGOUT!" })
 local CopyDropdown
-TrollTab:Input({
-    Title = "Search Player",
-    Placeholder = "Type name...",
-    Callback = function(t)
-        if CopyDropdown then CopyDropdown:Refresh(GetPlayerList(t)) end
-    end
-})
-CopyDropdown = TrollTab:Dropdown({
-    Title = "Select Player",
-    Values = GetPlayerList(),
-    Callback = function(val) SelectedPlayerName = val end
-})
+TrollTab:Input({ Title = "Search Player", Placeholder = "Type name...", Callback = function(t) if CopyDropdown then CopyDropdown:Refresh(GetPlayerList(t)) end end })
+CopyDropdown = TrollTab:Dropdown({ Title = "Select Player", Values = GetPlayerList(), Callback = function(val) SelectedPlayerName = val end })
 TrollTab:Button({
     Title = "Copy Ava",
     Callback = function()
@@ -592,16 +523,9 @@ TrollTab:Button({
         end
     end
 })
-TrollTab:Button({
-    Title = "Refresh Player List",
-    Callback = function() if CopyDropdown then CopyDropdown:Refresh(GetPlayerList()) end end
-})
+TrollTab:Button({ Title = "Refresh Player List", Callback = function() if CopyDropdown then CopyDropdown:Refresh(GetPlayerList()) end end })
 TrollTab:Section({ Title = "Global Search (API)" })
-TrollTab:Input({
-    Title = "Search Username",
-    Placeholder = "e.g. Roblox",
-    Callback = function(t) SearchInputVal = t end
-})
+TrollTab:Input({ Title = "Search Username", Placeholder = "e.g. Roblox", Callback = function(t) SearchInputVal = t end })
 TrollTab:Button({
     Title = "Copy By Search USN",
     Callback = function()
@@ -617,32 +541,50 @@ TrollTab:Button({
         end
     end
 })
-TrollTab:Button({
-    Title = "Reset Avatar",
-    Callback = function()
-        local s, desc = pcall(function() return Players:GetHumanoidDescriptionFromUserId(LocalPlayer.UserId) end)
-        if s and desc then ApplyAvatarFromDescription(desc, "Original") end
-    end
-})
+TrollTab:Button({ Title = "Reset Avatar", Callback = function() local s, desc = pcall(function() return Players:GetHumanoidDescriptionFromUserId(LocalPlayer.UserId) end) if s and desc then ApplyAvatarFromDescription(desc, "Original") end end })
 
 --==================================================
--- 🕺 EMOTE & ANIMASI TAB (FIXED & OVERRIDE READY)
+-- 🕺 EMOTE & ANIMASI TAB (NEW FORMAT PACK SUPPORT)
 --==================================================
 local EmoteTab = Window:Tab({ Title = "EMOTE", Icon = "smile" })
 
--- 📌 TAMBAHKAN ID EMOTE KAMU DI SINI
+-- 📌 ID EMOTE
 local EmotesData = {
     ["SHAKE THAT THANG"] = "rbxassetid://118364690209655",
     ["Dougie"] = "rbxassetid://93650537970037",
     ["stretch"] = "rbxassetid://119377401608190"
 }
 
--- 📌 TAMBAHKAN ID ANIMASI KAMU DI SINI (Ubah Gaya Berjalan/Lari)
+-- 📌 ID ANIMASI (FORMAT PACK: IDLE, WALK, RUN, JUMP)
 local AnimationsData = {
-    ["Ninja Run"] = "rbxassetid://656118852",
-    ["Zombie Walk"] = "rbxassetid://616163682",
-    ["Mage Idle"] = "rbxassetid://656117400",
-    ["Toy Walk"] = "rbxassetid://782843345"
+    ["Toy"]          = {idle = "rbxassetid://782842708", walk = "rbxassetid://782843345", run = "rbxassetid://782843116", jump = "rbxassetid://782843005"},
+    ["Bubbly"]       = {idle = "rbxassetid://616079330", walk = "rbxassetid://616082641", run = "rbxassetid://616081552", jump = "rbxassetid://616080083"},
+    ["Cartoony"]     = {idle = "rbxassetid://742632327", walk = "rbxassetid://742638842", run = "rbxassetid://742637998", jump = "rbxassetid://742636881"},
+    ["Adidas Com"]   = {idle = "", walk = "", run = "", jump = ""}, 
+    ["Adidas Spo"]   = {idle = "", walk = "", run = "", jump = ""},
+    ["Stylish"]      = {idle = "rbxassetid://616136790", walk = "rbxassetid://616139957", run = "rbxassetid://616139030", jump = "rbxassetid://616137447"},
+    ["Amazon"]       = {idle = "", walk = "", run = "", jump = ""},
+    ["Bold"]         = {idle = "rbxassetid://616088232", walk = "rbxassetid://616091571", run = "rbxassetid://616090535", jump = "rbxassetid://616088911"},
+    ["Adidas Aura"]  = {idle = "", walk = "", run = "", jump = ""},
+    ["Wicked"]       = {idle = "", walk = "", run = "", jump = ""},
+    ["Old School"]   = {idle = "rbxassetid://5319828232", walk = "rbxassetid://5319831086", run = "rbxassetid://5319830062", jump = "rbxassetid://5319828751"},
+    ["Wicked New"]   = {idle = "", walk = "", run = "", jump = ""},
+    ["No Boundaries"]= {idle = "", walk = "", run = "", jump = ""},
+    ["Mage"]         = {idle = "rbxassetid://707742142", walk = "rbxassetid://707826164", run = "rbxassetid://707821433", jump = "rbxassetid://707817300"},
+    ["Robot"]        = {idle = "rbxassetid://616082233", walk = "rbxassetid://616086039", run = "rbxassetid://616085211", jump = "rbxassetid://616083533"},
+    ["Catwalk"]      = {idle = "rbxassetid://1215722166", walk = "rbxassetid://1215722166", run = "rbxassetid://1215722166", jump = "rbxassetid://1215722166"},
+    ["NFL"]          = {idle = "", walk = "", run = "", jump = ""},
+    ["Elder"]        = {idle = "rbxassetid://845397899", walk = "rbxassetid://845403896", run = "rbxassetid://845402038", jump = "rbxassetid://845399995"},
+    ["Werewolf"]     = {idle = "rbxassetid://1083192044", walk = "rbxassetid://1083196331", run = "rbxassetid://1083195517", jump = "rbxassetid://1083193525"},
+    ["Superhero"]    = {idle = "rbxassetid://616095330", walk = "rbxassetid://616098272", run = "rbxassetid://616097161", jump = "rbxassetid://616095933"},
+    ["Zombie"]       = {idle = "rbxassetid://616158929", walk = "rbxassetid://616163682", run = "rbxassetid://616161925", jump = "rbxassetid://616160356"},
+    ["Astronaut"]    = {idle = "rbxassetid://891557002", walk = "rbxassetid://891560213", run = "rbxassetid://891559253", jump = "rbxassetid://891557983"},
+    ["Ninja"]        = {idle = "rbxassetid://656117400", walk = "rbxassetid://656121766", run = "rbxassetid://656118852", jump = "rbxassetid://656117927"},
+    ["Vampire"]      = {idle = "rbxassetid://1083412247", walk = "rbxassetid://1083414343", run = "rbxassetid://1083413769", jump = "rbxassetid://1083412857"},
+    ["Knight"]       = {idle = "rbxassetid://657373335", walk = "rbxassetid://657373751", run = "rbxassetid://657373623", jump = "rbxassetid://657373418"},
+    ["Levitation"]   = {idle = "rbxassetid://616076135", walk = "rbxassetid://616077717", run = "rbxassetid://616077306", jump = "rbxassetid://616076757"},
+    ["Pirate"]       = {idle = "rbxassetid://750781874", walk = "rbxassetid://750783738", run = "rbxassetid://750782774", jump = "rbxassetid://750782210"},
+    ["Rthro"]        = {idle = "rbxassetid://2510196951", walk = "rbxassetid://2510198655", run = "rbxassetid://2510197793", jump = "rbxassetid://2510197472"}
 }
 
 local function GetKeys(t)
@@ -677,9 +619,9 @@ local function StopEmote()
     Notify("Berhasil", "Emote dihentikan.")
 end
 
---================ LOGIC ANIMASI OVERRIDE ================--
+--================ LOGIC ANIMASI OVERRIDE (PACK SYSTEM) ================--
 local SelectedAnimName = nil
-local SelectedAnimId = nil
+local SelectedAnimData = nil
 local DefaultAnimIds = {}
 
 local function SaveOriginalAnimations()
@@ -700,35 +642,26 @@ local function SaveOriginalAnimations()
     end
 end
 
-local function ApplyMovementAnimation(animName, animId)
+-- Fungsi yang sudah diubah untuk membaca format Table/Pack
+local function ApplyMovementAnimation(animName, animData)
     local char = LocalPlayer.Character
     if not char or not char:FindFirstChild("Animate") then 
         return Notify("Error", "Script Animate bawaan tidak ditemukan di karaktermu.") 
     end
     
     SaveOriginalAnimations()
-
     local animate = char.Animate
-    local lowerName = string.lower(animName)
-    
-    -- Auto Deteksi
-    local targets = {}
-    if string.find(lowerName, "run") then table.insert(targets, "run")
-    elseif string.find(lowerName, "walk") then table.insert(targets, "walk")
-    elseif string.find(lowerName, "idle") then table.insert(targets, "idle")
-    elseif string.find(lowerName, "jump") then table.insert(targets, "jump")
-    elseif string.find(lowerName, "fall") then table.insert(targets, "fall")
-    else
-        table.insert(targets, "walk")
-        table.insert(targets, "run")
-    end
 
-    for _, stateName in ipairs(targets) do
-        local stateObj = animate:FindFirstChild(stateName)
-        if stateObj then
-            for _, anim in pairs(stateObj:GetChildren()) do
-                if anim:IsA("Animation") then
-                    anim.AnimationId = animId
+    -- Looping isi table (idle, walk, run, jump)
+    for stateName, animId in pairs(animData) do
+        -- Hanya terapkan jika ID tidak kosong
+        if animId and animId ~= "" then
+            local stateObj = animate:FindFirstChild(stateName)
+            if stateObj then
+                for _, anim in pairs(stateObj:GetChildren()) do
+                    if anim:IsA("Animation") then
+                        anim.AnimationId = animId
+                    end
                 end
             end
         end
@@ -738,7 +671,7 @@ local function ApplyMovementAnimation(animName, animId)
     task.wait(0.05)
     animate.Disabled = false
 
-    Notify("Sukses", animName .. " berhasil diaplikasikan!")
+    Notify("Sukses", animName .. " Animation Pack diaplikasikan!")
 end
 
 local function ResetMovementDefault()
@@ -778,49 +711,41 @@ EmoteTab:Dropdown({
 EmoteTab:Button({
     Title = "Play Emote",
     Callback = function()
-        if SelectedEmoteId then
-            PlayEmote(SelectedEmoteId)
-        else
-            Notify("Error", "Pilih emote dari list terlebih dahulu!")
-        end
+        if SelectedEmoteId then PlayEmote(SelectedEmoteId) else Notify("Error", "Pilih emote dari list terlebih dahulu!") end
     end
 })
 
 EmoteTab:Button({
     Title = "Stop Emote",
-    Callback = function()
-        StopEmote()
-    end
+    Callback = function() StopEmote() end
 })
 
 -- SECTION: Categori Animasi
 EmoteTab:Section({ Title = "Categori Animasi (Ubah Gaya Jalan)" })
 
 EmoteTab:Dropdown({
-    Title = "Pilih Animasi",
+    Title = "Pilih Animasi Pack",
     Values = GetKeys(AnimationsData),
     Callback = function(val)
         SelectedAnimName = val
-        SelectedAnimId = AnimationsData[val]
+        SelectedAnimData = AnimationsData[val]
     end
 })
 
 EmoteTab:Button({
-    Title = "Apply Animasi (Override)",
+    Title = "Apply Animasi Pack",
     Callback = function()
-        if SelectedAnimId and SelectedAnimName then
-            ApplyMovementAnimation(SelectedAnimName, SelectedAnimId)
+        if SelectedAnimData and SelectedAnimName then
+            ApplyMovementAnimation(SelectedAnimName, SelectedAnimData)
         else
-            Notify("Error", "Pilih animasi dari list terlebih dahulu!")
+            Notify("Error", "Pilih animasi pack dari list terlebih dahulu!")
         end
     end
 })
 
 EmoteTab:Button({
     Title = "Reset Default Animasi",
-    Callback = function()
-        ResetMovementDefault()
-    end
+    Callback = function() ResetMovementDefault() end
 })
 
 --==================================================
