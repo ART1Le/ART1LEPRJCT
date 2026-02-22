@@ -95,12 +95,11 @@ local function GetPlayerList(filter)
     local t = {}
     for _, v in pairs(Players:GetPlayers()) do
         if v ~= LocalPlayer then
-            if not filter or v.Name:lower():find(filter:lower(), 1, true) or v.DisplayName:lower():find(filter:lower(), 1, true) then
+            if not filter or v.Name:lower():find(filter:lower()) or v.DisplayName:lower():find(filter:lower()) then
                 table.insert(t, v.Name)
             end
         end
     end
-    if #t == 0 then table.insert(t, "- Tidak ditemukan -") end
     return t
 end
 
@@ -418,6 +417,34 @@ MainTab:Dropdown({
     end
 })
 
+MainTab:Button({
+    Title = "Refresh Character (/re)",
+    Callback = function()
+        local char = LocalPlayer.Character
+        if char and char:FindFirstChild("HumanoidRootPart") then
+            local savedCFrame = char.HumanoidRootPart.CFrame
+            
+            Notify("Refresh", "Memuat ulang karakter secara instan...")
+            
+            -- Cara instan: Langsung hancurkan karakter tanpa animasi mati/jatuh
+            char:Destroy()
+            -- Memicu server untuk memuat ulang karakter
+            LocalPlayer.Character = nil 
+            
+            -- Menangkap karakter baru saat respawn dan mengembalikan posisinya
+            local respawnConn
+            respawnConn = LocalPlayer.CharacterAdded:Connect(function(newChar)
+                local newHRP = newChar:WaitForChild("HumanoidRootPart", 5)
+                if newHRP then
+                    task.wait(0.1) -- Jeda sebentar agar physics stabil
+                    newHRP.CFrame = savedCFrame
+                end
+                if respawnConn then respawnConn:Disconnect() end
+            end)
+        end
+    end
+})
+
 --==================================================
 -- 📸 FREECAM TAB 
 --==================================================
@@ -426,11 +453,10 @@ local FreecamTab = Window:Tab({ Title = "FREECAM", Icon = "camera" })
 local function GetFullPlayerList(filter)
     local t = {}
     for _, v in pairs(Players:GetPlayers()) do
-        if not filter or v.DisplayName:lower():find(filter:lower(), 1, true) or v.Name:lower():find(filter:lower(), 1, true) then
+        if not filter or v.DisplayName:lower():find(filter:lower()) or v.Name:lower():find(filter:lower()) then
             table.insert(t, v.DisplayName .. " (@" .. v.Name .. ")")
         end
     end
-    if #t == 0 then table.insert(t, "- Tidak ditemukan -") end
     return t
 end
 
@@ -810,20 +836,9 @@ local AnimationsData = {
     ["Rthro Jump"] = "rbxassetid://10921263860"
 }
 
-local function GetKeys(t, filter)
+local function GetKeys(t)
     local keys = {}
-    local safeFilter = filter and tostring(filter):lower() or ""
-    
-    for k, v in pairs(t) do 
-        if safeFilter == "" or tostring(k):lower():find(safeFilter, 1, true) then
-            table.insert(keys, k) 
-        end
-    end
-    
-    if #keys == 0 then
-        table.insert(keys, "- Tidak ditemukan -")
-    end
-    
+    for k, v in pairs(t) do table.insert(keys, k) end
     return keys
 end
 
@@ -943,16 +958,7 @@ end
 -- SECTION: Categori Emote
 EmoteTab:Section({ Title = "Categori Emote" })
 
-local EmoteDrop
-EmoteTab:Input({
-    Title = "Search Emote",
-    Placeholder = "Ketik nama emote...",
-    Callback = function(t)
-        if EmoteDrop then EmoteDrop:Refresh(GetKeys(EmotesData, t)) end
-    end
-})
-
-EmoteDrop = EmoteTab:Dropdown({
+EmoteTab:Dropdown({
     Title = "Pilih Emote",
     Values = GetKeys(EmotesData),
     Callback = function(val)
@@ -981,16 +987,7 @@ EmoteTab:Button({
 -- SECTION: Categori Animasi
 EmoteTab:Section({ Title = "Categori Animasi (Ubah Gaya Jalan)" })
 
-local AnimDrop
-EmoteTab:Input({
-    Title = "Search Animasi",
-    Placeholder = "Ketik nama animasi...",
-    Callback = function(t)
-        if AnimDrop then AnimDrop:Refresh(GetKeys(AnimationsData, t)) end
-    end
-})
-
-AnimDrop = EmoteTab:Dropdown({
+EmoteTab:Dropdown({
     Title = "Pilih Animasi",
     Values = GetKeys(AnimationsData),
     Callback = function(val)
