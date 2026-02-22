@@ -676,7 +676,7 @@ local AnimationsData = {
     ["Stylish Jump"] = "rbxassetid://10921279832",
 
     -- AMAZON
-    ["Amazon Idle"] = "rbxassetid://98281136301627",",
+    ["Amazon Idle"] = "rbxassetid://98281136301627",
     ["Amazon Run"] = "rbxassetid://134824450619865",
     ["Amazon Walk"] = "rbxassetid://90478085024465",
     ["Amazon Jump"] = "rbxassetid://121454505477205",
